@@ -1,0 +1,357 @@
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("assets/fonts/CormorantGaramond.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ink: #24170e;
+  --gold: #f3d7a2;
+  --gold-deep: #c49245;
+  --glow: rgba(255, 206, 120, 0.9);
+  --night: #070c12;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at center, #1a2633 0%, var(--night) 70%);
+  color: #f7f1e6;
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", Times, serif;
+  font-weight: 600;
+}
+
+.viewport {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  width: min(100vw, calc(100dvh * 1672 / 941));
+  container-type: inline-size;
+}
+
+.scene__bg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lead {
+  position: absolute;
+  z-index: 3;
+  top: 2.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  max-width: 92%;
+  padding: 0.28em 0.85em 0.34em;
+  border-radius: 999px;
+  background: rgba(10, 14, 20, 0.46);
+  color: #f6efe2;
+  font-size: clamp(14px, 1.65cqi, 22px);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  backdrop-filter: blur(3px);
+}
+
+.symbol {
+  display: contents;
+}
+
+.symbol--1 {
+  --x: 40.52%;
+  --y: 50.9%;
+  --size: 6.7%;
+}
+
+.symbol--2 {
+  --x: 50%;
+  --y: 50.9%;
+  --size: 5.45%;
+}
+
+.symbol--3 {
+  --x: 59.48%;
+  --y: 50.9%;
+  --size: 7.3%;
+}
+
+.glyph {
+  position: absolute;
+  z-index: 1;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  transform: translate(-50%, -50%);
+  animation: glow-idle 3.4s ease-in-out infinite;
+}
+
+.glyph img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.symbol--1 .glyph img {
+  transform: translateY(-4.7%);
+}
+
+.symbol--2 .glyph img {
+  transform: translateY(-3.3%);
+}
+
+.symbol--3 .glyph img {
+  transform: translateY(5.9%);
+}
+
+.glyph::after {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.glyph.is-scanning {
+  animation: shake 0.95s ease-in-out;
+  filter:
+    drop-shadow(0 0 6px #fff4d2)
+    drop-shadow(0 0 14px #ffc85a)
+    drop-shadow(0 0 26px rgba(255, 150, 40, 0.9));
+}
+
+.glyph.is-scanning::after {
+  opacity: 1;
+  border-color: rgba(255, 232, 176, 0.95);
+  box-shadow:
+    0 0 10px rgba(255, 206, 110, 0.95),
+    inset 0 0 14px rgba(255, 214, 130, 0.45);
+}
+
+.glyph.is-decoded {
+  animation: none;
+  filter: drop-shadow(0 0 0 rgba(255, 196, 90, 0));
+  transition: filter 0.55s ease;
+}
+
+.hint {
+  position: absolute;
+  z-index: 2;
+  left: var(--x);
+  top: 42.6%;
+  margin: 0;
+  color: #fff8ea;
+  font-size: clamp(15px, 2.55cqi, 36px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -70%);
+  text-shadow:
+    0 0 8px rgba(255, 220, 150, 0.95),
+    0 0 18px rgba(255, 168, 60, 0.8),
+    0 2px 8px rgba(0, 0, 0, 0.85);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.symbol.is-revealed .hint {
+  opacity: 1;
+  transform: translate(-50%, -100%);
+}
+
+.scan-button,
+.finale {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 4.2%;
+  transform: translateX(-50%);
+}
+
+.scan-button {
+  border: 1px solid #6d4a1e;
+  border-radius: 999px;
+  padding: 0.42em 1.15em 0.48em;
+  background: linear-gradient(#f8e2b6, #d7a45a 55%, #b8833d);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(15px, 1.85cqi, 28px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.4s ease;
+}
+
+.scan-button:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateX(-50%) translateY(-1px);
+}
+
+.scan-button:focus-visible {
+  outline: 3px solid #fff3c4;
+  outline-offset: 3px;
+}
+
+.scan-button:disabled {
+  cursor: default;
+  filter: saturate(0.85);
+}
+
+.scan-button.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.finale {
+  z-index: 5;
+  margin: 0;
+  padding: 0.22em 0.75em 0.3em;
+  border: 1px solid rgba(243, 214, 156, 0.85);
+  border-radius: 14px;
+  background: rgba(28, 18, 10, 0.78);
+  color: #fff6e4;
+  font-size: clamp(22px, 3.5cqi, 52px);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.finale.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes glow-idle {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 2px rgba(255, 246, 220, 1))
+      drop-shadow(0 0 7px rgba(255, 198, 96, 0.95))
+      drop-shadow(0 0 14px rgba(214, 140, 40, 0.55));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 3px rgba(255, 250, 232, 1))
+      drop-shadow(0 0 11px rgba(255, 214, 130, 1))
+      drop-shadow(0 0 22px rgba(230, 154, 46, 0.8));
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+
+  16% {
+    transform: translate(calc(-50% - 2px), calc(-50% + 1px)) scale(1.1) rotate(-2.2deg);
+  }
+
+  32% {
+    transform: translate(calc(-50% + 3px), calc(-50% - 1px)) scale(1.15) rotate(2.4deg);
+  }
+
+  48% {
+    transform: translate(calc(-50% - 2px), -50%) scale(1.12) rotate(-1.7deg);
+  }
+
+  64% {
+    transform: translate(calc(-50% + 2px), calc(-50% + 1px)) scale(1.16) rotate(1.6deg);
+  }
+
+  80% {
+    transform: translate(calc(-50% - 1px), -50%) scale(1.1) rotate(-0.7deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
+  }
+}
+
+@media (max-aspect-ratio: 3 / 4) {
+  .viewport {
+    height: 100dvh;
+  }
+
+  .scene {
+    flex: none;
+    width: min(250vw, calc(94dvh * 1672 / 941));
+  }
+
+  .lead {
+    max-width: 32%;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glyph,
+  .hint,
+  .finale,
+  .scan-button {
+    animation: none !important;
+    transition: none;
+  }
+
+  .glyph {
+    filter:
+      drop-shadow(0 0 4px rgba(255, 228, 176, 0.95))
+      drop-shadow(0 0 10px rgba(214, 148, 52, 0.6));
+  }
+
+  .glyph.is-scanning {
+    filter:
+      drop-shadow(0 0 6px #fff4d2)
+      drop-shadow(0 0 16px #ffc85a);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  .glyph.is-decoded {
+    filter: none;
+    transform: translate(-50%, -50%);
+  }
+}

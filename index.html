@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>крутецкие символы никусика-попрыгусика</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="viewport">
+      <main class="scene">
+        <img class="scene__bg" src="assets/gate.png" width="1672" height="941"alt="Каменные врата замка: на створках три круглых камня">
+        <p class="lead">На створках Врат проступили три символа</p>
+        
+        <figure class="symbol symbol--1">
+          <div class="glyph">
+            <img src="assets/glyph-1.svg" alt="Первый символ на левом камне">
+          </div>
+          <figcaption class="hint" aria-hidden="true">Ты</figcaption>
+        </figure>
+
+        <figure class="symbol symbol--2">
+          <div class="glyph">
+            <img src="assets/glyph-2.svg" alt="Второй символ на среднем камне">
+          </div>
+          <figcaption class="hint" aria-hidden="true">всё</figcaption>
+        </figure>
+
+        <figure class="symbol symbol--3">
+          <div class="glyph">
+            <img src="assets/glyph-3.svg" alt="Третий символ на правом камне">
+          </div>
+          <figcaption class="hint" aria-hidden="true">сможешь</figcaption>
+        </figure>
+
+        <button type="button" class="scan-button" id="scan-button">
+          Сканировать символы
+        </button>
+
+        <p class="finale" id="finale" aria-hidden="true">Ты всё сможешь!</p>
+        <p class="sr-only" id="live-status" aria-live="polite"></p>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
